@@ -39,15 +39,15 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                         switch (dir)
                         {
                             case EWideLeanDirection.Left:
-                                var up1 = new Vector3(0f, 0f, m100/2);
+                                var up1 = new Vector3(0f, 0f, m100/2);//50 meters
                                 writes.AddValueEntry(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.PositionZeroSum, ref up1);
                                 break;
                             case EWideLeanDirection.Right:
-                                var up2 = new Vector3(0f, 0f, m100);
+                                var up2 = new Vector3(0f, 0f, m100*2);//200 meters
                                 writes.AddValueEntry(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.PositionZeroSum, ref up2);
                                 break;
                             case EWideLeanDirection.Up:
-                                var up3 = new Vector3(0f, 0f, m100*2);
+                                var up3 = new Vector3(0f, 0f, m100*2);//100 meters
                                 writes.AddValueEntry(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.PositionZeroSum, ref up3);
                                 break;
                             default:

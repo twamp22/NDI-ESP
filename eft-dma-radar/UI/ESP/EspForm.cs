@@ -224,7 +224,7 @@ namespace eft_dma_radar.UI.ESP
             try
             {
                 //FOR DEBUGGING
-                DrawDemoCrap(canvas);
+                // DrawDemoCrap(canvas);
                 var localPlayer = LocalPlayer; // Cache ref
                 var allPlayers = AllPlayers; // Cache ref
                 if (localPlayer is not null && allPlayers is not null)
@@ -271,11 +271,25 @@ namespace eft_dma_radar.UI.ESP
             canvas.Flush();
 
             using (var image = e.Surface.Snapshot())
-            using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
-            using (var ms = new MemoryStream(data.ToArray()))
-            using (var bitmap = new Bitmap(ms))
             {
-                NDIManager.SendFrame(bitmap);
+                var info = image.Info;
+                var buffer = new byte[info.BytesSize];
+
+                unsafe
+                {
+                    fixed (byte* bufferPtr = buffer)
+                    {
+                        // Read pixels from the image into our buffer
+                        if (image.ReadPixels(info, (IntPtr)bufferPtr, info.RowBytes, 0, 0))
+                        {
+                            // Wrap the buffer with an SKPixmap directly
+                            using (var pixmap = new SKPixmap(info, (IntPtr)bufferPtr, info.RowBytes))
+                            {
+                                NDIManager.SendFrame(pixmap);
+                            }
+                        }
+                    }
+                }
             }
         }
 

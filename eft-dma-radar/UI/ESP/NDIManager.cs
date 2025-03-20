@@ -1,6 +1,4 @@
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
+using SkiaSharp;
 using System.Runtime.InteropServices;
 using NewTek;
 
@@ -24,31 +22,25 @@ namespace eft_dma_radar.UI.ESP
             senderPtr = NDIlib.send_create(ref senderDesc);
         }
 
-        public static void SendFrame(Bitmap bmp)
+        public static void SendFrame(SKPixmap pixmap)
         {
-            if (senderPtr == IntPtr.Zero)
+            if (senderPtr == IntPtr.Zero || pixmap == null)
                 return;
-
-            var bmpData = bmp.LockBits(
-                new Rectangle(0, 0, bmp.Width, bmp.Height),
-                ImageLockMode.ReadOnly,
-                PixelFormat.Format32bppArgb);
 
             var videoFrame = new NDIlib.video_frame_v2_t
             {
-                xres = bmp.Width,
-                yres = bmp.Height,
+                xres = pixmap.Width,
+                yres = pixmap.Height,
                 FourCC = NDIlib.FourCC_type_e.FourCC_type_BGRA,
                 frame_rate_N = 60,
                 frame_rate_D = 1,
-                line_stride_in_bytes = bmpData.Stride,
-                p_data = bmpData.Scan0,
-                picture_aspect_ratio = (float)bmp.Width / bmp.Height,
-                frame_format_type = NDIlib.frame_format_type_e.frame_format_type_progressive  // Force progressive frames
+                line_stride_in_bytes = pixmap.RowBytes,
+                p_data = pixmap.GetPixels(),
+                picture_aspect_ratio = (float)pixmap.Width / pixmap.Height,
+                frame_format_type = NDIlib.frame_format_type_e.frame_format_type_progressive
             };
 
             NDIlib.send_send_video_v2(senderPtr, ref videoFrame);
-            bmp.UnlockBits(bmpData);
         }
 
         public static void Shutdown()
