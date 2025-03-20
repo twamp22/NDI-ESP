@@ -78,7 +78,7 @@ namespace eft_dma_shared.Common.Features
             }
             catch (Exception ex)
             {
-                LoneLogging.WriteLine($"ERROR Applying Patch {GetType().ToString()}: {ex}");
+                //LoneLogging.WriteLine($"ERROR Applying Patch {GetType().ToString()}: {ex}");
             }
             return false;
         }

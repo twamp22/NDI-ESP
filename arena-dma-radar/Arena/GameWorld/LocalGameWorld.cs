@@ -156,7 +156,7 @@ namespace arena_dma_radar.Arena.GameWorld
                 }
                 catch (Exception ex)
                 {
-                    LoneLogging.WriteLine($"ERROR Instantiating Game Instance: {ex}");
+                    //LoneLogging.WriteLine($"ERROR Instantiating Game Instance: {ex}");
                 }
                 finally
                 {

@@ -43,6 +43,8 @@ namespace eft_dma_radar.UI.ESP
                 frame_rate_D = 1,
                 line_stride_in_bytes = bmpData.Stride,
                 p_data = bmpData.Scan0,
+                picture_aspect_ratio = (float)bmp.Width / bmp.Height,
+                frame_format_type = NDIlib.frame_format_type_e.frame_format_type_progressive  // Force progressive frames
             };
 
             NDIlib.send_send_video_v2(senderPtr, ref videoFrame);

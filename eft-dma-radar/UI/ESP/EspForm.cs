@@ -130,7 +130,18 @@ namespace eft_dma_radar.UI.ESP
                 skglControl_ESP.Invalidate();
             });
         }
-
+        private void DrawDemoCrap(SKCanvas canvas)
+        {
+            var random = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                canvas.DrawCircle(
+                    new SKPoint(random.Next(0, 1920), random.Next(0, 1080)),
+                    random.Next(10, 100),
+                    SKPaints.PaintBasicESP
+                );
+            }
+        }
         #endregion
 
         #region Form Methods
@@ -212,6 +223,8 @@ namespace eft_dma_radar.UI.ESP
             canvas.Clear();
             try
             {
+                //FOR DEBUGGING
+                DrawDemoCrap(canvas);
                 var localPlayer = LocalPlayer; // Cache ref
                 var allPlayers = AllPlayers; // Cache ref
                 if (localPlayer is not null && allPlayers is not null)
