@@ -59,7 +59,7 @@ namespace eft_dma_radar.UI.ESP
 
         public static void SendFrame(SKPixmap pixmap, int fps)
         {
-            if (senderPtr == IntPtr.Zero)
+            if (senderPtr == IntPtr.Zero || pixmap == null)
                 return;
 
             var videoFrame = new NDIlib.video_frame_v2_t

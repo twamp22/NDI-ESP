@@ -95,18 +95,15 @@ namespace eft_dma_radar.UI.ESP
             this.ShowInTaskbar = false;
             this.Opacity = 0;
             var screen = Screen.AllScreens[Config.ESP.SelectedScreen];
-            var width = screen.Bounds.Width;
-            var height = screen.Bounds.Height;
-            var fps = Config.ESP.FPSCap > 0 ? Config.ESP.FPSCap : 60; // default fallback
-            NDIManager.Initialize(width, height, fps);
+            NDIManager.Initialize(screen.Bounds.Width, screen.Bounds.Height, Config.ESP.FPSCap);
             skglControl_ESP.DoubleClick += ESP_DoubleClick;
             _fpsSw.Start();
 
             var allScreens = Screen.AllScreens;
             if (Config.ESP.AutoFullscreen && Config.ESP.SelectedScreen < allScreens.Length)
             {
-                screen = Screen.AllScreens[1]; // reassigning, not redeclaring
-                var bounds = screen.Bounds;
+                var selectedScreen = allScreens[Config.ESP.SelectedScreen];
+                var bounds = selectedScreen.Bounds;
                 FormBorderStyle = FormBorderStyle.None;
                 Location = new Point(bounds.Left, bounds.Top);
                 Size = CameraManagerBase.Viewport.Size;
@@ -292,7 +289,7 @@ namespace eft_dma_radar.UI.ESP
                             // Wrap the buffer with an SKPixmap directly
                             using (var pixmap = new SKPixmap(info, (IntPtr)bufferPtr, info.RowBytes))
                             {
-                                NDIManager.SendFrame(pixmap, _fps);
+                                NDIManager.SendFrame(pixmap, Config.ESP.FPSCap);
                             }
                         }
                     }
@@ -561,7 +558,6 @@ namespace eft_dma_radar.UI.ESP
             }
         }
 
-
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.F11)
@@ -603,5 +599,14 @@ namespace eft_dma_radar.UI.ESP
         }
 
         #endregion
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                var cp = base.CreateParams;
+                cp.ExStyle |= 0x80; // WS_EX_TOOLWINDOW to hide from Alt+Tab
+                return cp;
+            }
+        }
     }
 }
