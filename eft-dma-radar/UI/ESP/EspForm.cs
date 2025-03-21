@@ -20,7 +20,7 @@ namespace eft_dma_radar.UI.ESP
     {
         #region Fields/Properties/Constructor
 
-        public static bool ShowESP = true;
+        public static bool ShowESP = false;
         private readonly Stopwatch _fpsSw = new();
         private readonly PrecisionTimer _renderTimer;
         private int _fpsCounter;

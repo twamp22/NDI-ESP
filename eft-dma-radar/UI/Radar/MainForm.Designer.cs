@@ -179,7 +179,7 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_ESPSettings = new FlowLayoutPanel();
             label12 = new Label();
             label26 = new Label();
-            button_StartESP = new Button();
+            button_ToggleESP = new Button();
             button_EspColorPicker = new Button();
             label_ESPFPSCap = new Label();
             textBox_EspFpsCap = new TextBox();
@@ -2088,7 +2088,7 @@ namespace eft_dma_radar.UI.Radar
             flowLayoutPanel_ESPSettings.BorderStyle = BorderStyle.FixedSingle;
             flowLayoutPanel_ESPSettings.Controls.Add(label12);
             flowLayoutPanel_ESPSettings.Controls.Add(label26);
-            flowLayoutPanel_ESPSettings.Controls.Add(button_StartESP);
+            flowLayoutPanel_ESPSettings.Controls.Add(button_ToggleESP);
             flowLayoutPanel_ESPSettings.Controls.Add(button_EspColorPicker);
             flowLayoutPanel_ESPSettings.Controls.Add(label_ESPFPSCap);
             flowLayoutPanel_ESPSettings.Controls.Add(textBox_EspFpsCap);
@@ -2138,16 +2138,16 @@ namespace eft_dma_radar.UI.Radar
             label26.TabIndex = 70;
             label26.Text = "label26";
             // 
-            // button_StartESP
+            // button_ToggleESP
             // 
-            button_StartESP.Anchor = AnchorStyles.Right;
-            button_StartESP.Location = new Point(9, 24);
-            button_StartESP.Name = "button_StartESP";
-            button_StartESP.Size = new Size(107, 41);
-            button_StartESP.TabIndex = 0;
-            button_StartESP.Text = "Start ESP";
-            button_StartESP.UseVisualStyleBackColor = true;
-            button_StartESP.Click += button_StartESP_Click;
+            button_ToggleESP.Anchor = AnchorStyles.Right;
+            button_ToggleESP.Location = new Point(9, 24);
+            button_ToggleESP.Name = "button_ToggleESP";
+            button_ToggleESP.Size = new Size(107, 41);
+            button_ToggleESP.TabIndex = 0;
+            button_ToggleESP.Text = "Start ESP";
+            button_ToggleESP.UseVisualStyleBackColor = true;
+            button_ToggleESP.Click += button_ToggleESP_Click;
             // 
             // button_EspColorPicker
             // 
@@ -3341,7 +3341,7 @@ namespace eft_dma_radar.UI.Radar
         private CheckBox checkBox_Chams;
         private RadioButton radioButton_AimTarget_CQB;
         private RadioButton radioButton_AimTarget_FOV;
-        private Button button_StartESP;
+        private Button button_ToggleESP;
         private CheckBox checkBox_ESP_Explosives;
         private CheckBox checkBox_ESP_Exfils;
         private CheckBox checkBox_ESP_FPS;
