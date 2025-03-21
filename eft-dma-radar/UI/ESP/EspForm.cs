@@ -232,8 +232,12 @@ namespace eft_dma_radar.UI.ESP
             canvas.Clear();
             try
             {
+                if (Config.ESP.ShowFPS)
+                    DrawPerformanceStats(canvas);
+
                 //FOR DEBUGGING
                 DrawDemoCrap(canvas);
+
                 var localPlayer = LocalPlayer; // Cache ref
                 var allPlayers = AllPlayers; // Cache ref
                 if (localPlayer is not null && allPlayers is not null)
@@ -260,8 +264,6 @@ namespace eft_dma_radar.UI.ESP
                             DrawRaidStats(canvas, allPlayers);
                         if (Config.ESP.ShowAimFOV && MemWriteFeature<Aimbot>.Instance.Enabled)
                             DrawAimFOV(canvas);
-                        if (Config.ESP.ShowFPS)
-                            DrawFPS(canvas);
                         if (Config.ESP.ShowMagazine)
                             DrawMagazine(canvas, localPlayer);
                         if (Config.ESP.ShowFireportAim &&
@@ -446,14 +448,27 @@ namespace eft_dma_radar.UI.ESP
         }
 
         /// <summary>
-        /// Draw FPS Counter.
+        /// Draw Performance Counter.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void DrawFPS(SKCanvas canvas)
+        private void DrawPerformanceStats(SKCanvas canvas)
         {
-            var textPt = new SKPoint(CameraManagerBase.Viewport.Left + 4.5f * Config.ESP.FontScale,
-                CameraManagerBase.Viewport.Top + 14f * Config.ESP.FontScale);
-            canvas.DrawText($"{_fps}fps", textPt, SKPaints.TextBasicESPLeftAligned);
+            var lines = new[]
+            {
+        $"Render FPS: {_fps}",
+        $"NDI Connections: {NDIManager.GetConnections()}",
+        $"Frames Sent: {NDIManager.FramesSent}",
+        $"NDI Latency: {NDIManager.LastSendLatencyMs} ms"
+    };
+
+            float x = CameraManagerBase.Viewport.Left + 4.5f * Config.ESP.FontScale;
+            float y = CameraManagerBase.Viewport.Top + 14f * Config.ESP.FontScale;
+
+            foreach (var line in lines)
+            {
+                canvas.DrawText(line, x, y, SKPaints.TextBasicESPLeftAligned);
+                y += SKPaints.TextBasicESPLeftAligned.TextSize + 2f * Config.ESP.FontScale;
+            }
         }
 
         /// <summary>

@@ -1,9 +1,8 @@
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using NewTek;
 using System.Net;
+using System.Runtime.InteropServices;
+using SkiaSharp;
+using NewTek;
 
 namespace eft_dma_radar.UI.ESP
 {
@@ -12,21 +11,18 @@ namespace eft_dma_radar.UI.ESP
         private static IntPtr senderPtr = IntPtr.Zero;
         private static IntPtr senderNamePtr = IntPtr.Zero;
 
+        public static long FramesSent { get; private set; } = 0;
+        public static long LastSendLatencyMs { get; private set; } = 0;
+
         public static void Initialize(int width, int height, int fps)
         {
             if (!NDIlib.initialize())
                 return;
 
             senderNamePtr = Marshal.StringToHGlobalAnsi("ESP NDI Stream");
-
-            var senderDesc = new NDIlib.send_create_t
-            {
-                p_ndi_name = senderNamePtr
-            };
-
+            var senderDesc = new NDIlib.send_create_t { p_ndi_name = senderNamePtr };
             senderPtr = NDIlib.send_create(ref senderDesc);
 
-            // Build and send metadata
             string metadataXml = $@"
 <ndi_product_metadata>
     <manufacturer>ESP Radar Team</manufacturer>
@@ -52,8 +48,6 @@ namespace eft_dma_radar.UI.ESP
             };
 
             NDIlib.send_add_connection_metadata(senderPtr, ref metaFrame);
-
-            // Free metadata memory
             Marshal.FreeHGlobal(metaFrame.p_data);
         }
 
@@ -75,7 +69,17 @@ namespace eft_dma_radar.UI.ESP
                 frame_format_type = NDIlib.frame_format_type_e.frame_format_type_progressive
             };
 
+            var sw = System.Diagnostics.Stopwatch.StartNew();
             NDIlib.send_send_video_v2(senderPtr, ref videoFrame);
+            sw.Stop();
+
+            FramesSent++;
+            LastSendLatencyMs = sw.ElapsedMilliseconds;
+        }
+
+        public static int GetConnections()
+        {
+            return senderPtr != IntPtr.Zero ? NDIlib.send_get_no_connections(senderPtr, 0) : 0;
         }
 
         public static void Shutdown()
