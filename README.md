@@ -1,32 +1,12 @@
 # Twamp's (WIP) NDI ESP
 
-![icon-static](https://github.com/user-attachments/assets/d3bc58ad-a987-4c94-bfe2-dd2236769f19)
-
 ## What is this?
-- This is an up-to-date build of Lone DMA EFT/Arena Radar. This is a standalone copy of the software with *No Restrictions*.
+- This is a proof of concept-turned work in progress for a network streamed ESP fuser video feed.
+- ESP video feed uses an RGBA video format for alpha layer blending of ESP over gameplay without any 3rd party chroma/greenscreen software.(No black background to remove)
+- This is a Work In Progress(WIP), changes may completely change the flow of the code, do not rely on stability.
 
-## How do I start using this?
-The compiled version will be available **After March 21st**. The current download is a placeholder.
-1. Download the [Release](https://github.com/Lone83427/lone-eft-dma-radar/releases/tag/compiled).
-2. Unzip the downloaded package using the specified password `lone`.
-   - [7-Zip](https://www.7-zip.org/) is a good software for unzipping files.
-3. Run the .EXE `eft-dma-radar.exe` or `arena-dma-radar.exe`
-4. Enjoy!
-![image](https://github.com/user-attachments/assets/942d7a28-627b-4428-a3a9-60fccbe87ed1)
+## Testers welcome!
+- I have only tested this on a number of my personal machines! Feel free to build it, run it and try to break it but please provide feedback to me via discord DM.
 
-## Arena
-- Arena is supported and will be maintained going forward.
-
-## Donations
-- If you would like to donate, any contribution is appreciated! ❤️
-  - Bitcoin: `bc1q7l4w7n3mt0rawztj0xl4me7mrnhjdr0hgjh2xp`
-  - Litecoin: `ltc1qlllsgdzq3dt2w2zchf7sxmy0t75sn4x6ethhez`
-  - Dogecoin: `DDiva1gAP1b9bi2cWfmZvDsQTQesxJAALw`
-  - Solana: `GYwdj8NpGG975oNY7s9mTjY92QhLYW7DpJoTjnGwDiQu`
-
-## Contact
-- For any inquiries or assistance, feel free to join the [EFT Educational Resources Discord Server](https://discord.gg/jGSnTCekdx). Please confine discussion to the [Lone DMA Section](https://discord.com/channels/1218731239599767632/1342207117704036382).
-- Report any major outages (after a game update,etc.) by opening an [Issue](https://github.com/Lone83427/lone-eft-dma-radar/issues). Please be *as detailed as possible*, don't just say "it's broke".
-  - This is **NOT** for feature requests or suggestions.
-  - Misuse of the Issues category will result in the privilege being revoked for that user.
-  - If misuse is rampant, the ability to open Issues may be disabled for all users.
+## EFT Educational Resources Discord Server
+- [EFT Educational Resources Discord Server](https://discord.gg/jGSnTCekdx)
