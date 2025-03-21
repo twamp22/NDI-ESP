@@ -2704,7 +2704,11 @@ namespace eft_dma_radar.UI.Radar
                 try
                 {
                     EspForm.ShowESP = true;
-                    Application.Run(new EspForm());
+                    var espForm = new EspForm();
+                    espForm.ShowInTaskbar = false;
+                    espForm.Opacity = 0;
+                    espForm.Show();
+                    Application.Run(espForm);
                 }
                 catch (Exception ex)
                 {

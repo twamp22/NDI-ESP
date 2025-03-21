@@ -91,14 +91,21 @@ namespace eft_dma_radar.UI.ESP
         {
             InitializeComponent();
             CenterToScreen();
-            NDIManager.Initialize();
+            this.Visible = false;
+            this.ShowInTaskbar = false;
+            this.Opacity = 0;
+            var screen = Screen.AllScreens[Config.ESP.SelectedScreen];
+            var width = screen.Bounds.Width;
+            var height = screen.Bounds.Height;
+            var fps = Config.ESP.FPSCap > 0 ? Config.ESP.FPSCap : 60; // default fallback
+            NDIManager.Initialize(width, height, fps);
             skglControl_ESP.DoubleClick += ESP_DoubleClick;
             _fpsSw.Start();
 
             var allScreens = Screen.AllScreens;
             if (Config.ESP.AutoFullscreen && Config.ESP.SelectedScreen < allScreens.Length)
             {
-                var screen = allScreens[Config.ESP.SelectedScreen];
+                screen = Screen.AllScreens[1]; // reassigning, not redeclaring
                 var bounds = screen.Bounds;
                 FormBorderStyle = FormBorderStyle.None;
                 Location = new Point(bounds.Left, bounds.Top);
@@ -224,7 +231,7 @@ namespace eft_dma_radar.UI.ESP
             try
             {
                 //FOR DEBUGGING
-                // DrawDemoCrap(canvas);
+                DrawDemoCrap(canvas);
                 var localPlayer = LocalPlayer; // Cache ref
                 var allPlayers = AllPlayers; // Cache ref
                 if (localPlayer is not null && allPlayers is not null)
@@ -285,7 +292,7 @@ namespace eft_dma_radar.UI.ESP
                             // Wrap the buffer with an SKPixmap directly
                             using (var pixmap = new SKPixmap(info, (IntPtr)bufferPtr, info.RowBytes))
                             {
-                                NDIManager.SendFrame(pixmap);
+                                NDIManager.SendFrame(pixmap, _fps);
                             }
                         }
                     }
