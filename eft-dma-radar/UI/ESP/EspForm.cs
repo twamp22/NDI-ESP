@@ -137,10 +137,15 @@ namespace eft_dma_radar.UI.ESP
         private void DrawDemoCrap(SKCanvas canvas)
         {
             var random = new Random();
+
+            // Get the canvas size dynamically:
+            var width = canvas.DeviceClipBounds.Width;
+            var height = canvas.DeviceClipBounds.Height;
+
             for (int i = 0; i < 10; i++)
             {
                 canvas.DrawCircle(
-                    new SKPoint(random.Next(0, 1920), random.Next(0, 1080)),
+                    new SKPoint(random.Next(0, width), random.Next(0, height)),
                     random.Next(10, 100),
                     SKPaints.PaintBasicESP
                 );
