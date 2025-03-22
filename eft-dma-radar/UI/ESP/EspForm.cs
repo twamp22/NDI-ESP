@@ -236,7 +236,7 @@ namespace eft_dma_radar.UI.ESP
                     DrawPerformanceStats(canvas);
 
                 //FOR DEBUGGING
-                DrawDemoCrap(canvas);
+                // DrawDemoCrap(canvas);
 
                 var localPlayer = LocalPlayer; // Cache ref
                 var allPlayers = AllPlayers; // Cache ref
