@@ -10,3 +10,19 @@
 
 ## EFT Educational Resources Discord Server
 - [EFT Educational Resources Discord Server](https://discord.gg/jGSnTCekdx)
+
+## Known Issues
+- ESP Window is being rendered and hidden(terrible for FPS & rendering speed)
+   - AutoFullScreen causes lag due to changing ESP window size, increasing FPS
+- No way to use ESP window currently, user needs control over this in UI
+- No way to disable NDI feed, user needs control over this in UI
+
+## Future/Planned Features
+- ESP Window
+  - Checkbox for "Show ESP Window" (Required)
+  - Checkbox for "ESP Window Clickthrough" (Required)
+  - Checkbox for "ESP Window Transparency" (Required)
+    - Checkbox for "ESP Transparency Chroma" (Potential)
+- NDI ESP
+  - Checkbox for "Stream NDI ESP" (Required)
+  - Settings for NDI Stream quality (Potential)
