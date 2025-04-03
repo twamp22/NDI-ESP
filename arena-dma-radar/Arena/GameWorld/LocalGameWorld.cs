@@ -7,6 +7,7 @@ using eft_dma_shared.Common.DMA.ScatterAPI;
 using eft_dma_shared.Common.Unity;
 using arena_dma_radar.Arena.Features.MemoryWrites;
 using eft_dma_shared.Common.Misc.Data;
+using eft_dma_shared.Common.Misc.Commercial;
 
 namespace arena_dma_radar.Arena.GameWorld
 {
@@ -156,7 +157,7 @@ namespace arena_dma_radar.Arena.GameWorld
                 }
                 catch (Exception ex)
                 {
-                    //LoneLogging.WriteLine($"ERROR Instantiating Game Instance: {ex}");
+                    LoneLogging.WriteLine($"ERROR Instantiating Game Instance: {ex}");
                 }
                 finally
                 {

@@ -1,9 +1,9 @@
-﻿using eft_dma_shared.Common.Misc;
-using eft_dma_radar.Tarkov.EFTPlayer;
+﻿using eft_dma_radar.Tarkov.EFTPlayer;
 using eft_dma_radar.Tarkov.Features;
 using eft_dma_radar.UI.Misc;
 using eft_dma_shared.Common.DMA.ScatterAPI;
 using eft_dma_shared.Common.Features;
+using eft_dma_shared.Common.Misc.Commercial;
 
 namespace eft_dma_radar.Tarkov.Features.MemoryWrites
 {
@@ -39,15 +39,15 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                         switch (dir)
                         {
                             case EWideLeanDirection.Left:
-                                var up1 = new Vector3(0f, 0f, m100/2);//50 meters
+                                var up1 = new Vector3(0f, 0f, m100/2);
                                 writes.AddValueEntry(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.PositionZeroSum, ref up1);
                                 break;
                             case EWideLeanDirection.Right:
-                                var up2 = new Vector3(0f, 0f, m100*2);//200 meters
+                                var up2 = new Vector3(0f, 0f, m100);
                                 writes.AddValueEntry(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.PositionZeroSum, ref up2);
                                 break;
                             case EWideLeanDirection.Up:
-                                var up3 = new Vector3(0f, 0f, m100*2);//100 meters
+                                var up3 = new Vector3(0f, 0f, m100*2);
                                 writes.AddValueEntry(localPlayer.PWA + Offsets.ProceduralWeaponAnimation.PositionZeroSum, ref up3);
                                 break;
                             default:

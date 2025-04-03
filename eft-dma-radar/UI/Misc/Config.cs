@@ -20,6 +20,7 @@ namespace eft_dma_radar.UI.Misc
     public sealed class Config : IConfig
     {
         #region ISharedConfig
+        public static Config Instance { get; set; }
 
         [JsonIgnore]
         public bool MemWritesEnabled => this.MemWrites.MemWritesEnabled;
@@ -98,6 +99,12 @@ namespace eft_dma_radar.UI.Misc
         /// </summary>
         [JsonPropertyName("showInfoTab")]
         public bool ShowInfoTab { get; set; } = true;
+
+        /// <summary>
+        /// Shows Loot Info Widget.
+        /// </summary>
+        [JsonPropertyName("showLootTab")]
+        public bool ShowLootTab { get; set; } = true;
 
         /// <summary>
         /// Shows bodies/corpses on map.
@@ -466,6 +473,18 @@ namespace eft_dma_radar.UI.Misc
         public bool ShowFPS { get; set; } = false;
 
         /// <summary>
+        /// Show Clickthrough
+        /// </summary>
+        [JsonPropertyName("espClickThrough")]
+        public bool ClickThrough { get; set; } = false;
+
+        /// <summary>
+        /// Show Always On Top.
+        /// </summary>
+        [JsonPropertyName("espAlwaysOnTop")]
+        public bool AlwaysOnTop { get; set; } = false;
+
+        /// <summary>
         /// Display exfils in ESP.
         /// </summary>
         [JsonPropertyName("showExfils")]
@@ -676,6 +695,16 @@ namespace eft_dma_radar.UI.Misc
         [JsonPropertyName("antiPage")]
         public bool AntiPage { get; set; } = false;
 
+        /// <summary>
+        /// Hides Raid Code from the game.
+        /// </summary>
+        [JsonPropertyName("hideRaidCode")]
+        public bool HideRaidCode { get; set; } = false;
+        /// <summary>
+        /// Enables Streamer Mode.
+        /// </summary>
+        [JsonPropertyName("streamerMode")]
+        public bool StreamerMode { get; set; } = false;
         /// <summary>
         /// Enable No Recoil Feature on Startup.
         /// </summary>
@@ -1016,6 +1045,24 @@ namespace eft_dma_radar.UI.Misc
         }
 
         #endregion
+
+        #region Loot Info
+
+        [JsonPropertyName("lootInfoMinimized")]
+        public bool LootInfoMinimized { get; set; } = false;
+
+        [JsonInclude]
+        [JsonPropertyName("lootInfoLocation")]
+        public RectFSer _lootInfoLoc { private get; set; }
+        [JsonIgnore]
+        public SKRect LootInfoLocation
+        {
+            get => new(_lootInfoLoc.Left, _lootInfoLoc.Top, _lootInfoLoc.Right, _lootInfoLoc.Bottom);
+            set => _lootInfoLoc = new RectFSer(value.Left, value.Top, value.Right, value.Bottom);
+        }
+        
+        #endregion
+        
     }
 
     /// <summary>

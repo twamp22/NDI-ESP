@@ -10,6 +10,7 @@ using eft_dma_shared.Common.DMA.ScatterAPI;
 using eft_dma_shared.Common.Unity;
 using eft_dma_radar.Tarkov.Features.MemoryWrites;
 using eft_dma_shared.Common.Misc.Data;
+using eft_dma_shared.Common.Misc.Commercial;
 
 namespace eft_dma_radar.Tarkov.GameWorld
 {
@@ -150,7 +151,7 @@ namespace eft_dma_radar.Tarkov.GameWorld
                 }
                 catch (Exception ex)
                 {
-                    //LoneLogging.WriteLine($"ERROR Instantiating Game Instance: {ex}");
+                    LoneLogging.WriteLine($"ERROR Instantiating Game Instance: {ex}");
                 }
                 finally
                 {

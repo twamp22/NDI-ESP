@@ -1,20 +1,20 @@
-﻿global using static eft_dma_radar.Tarkov.MemoryInterface;
-using eft_dma_radar.Tarkov.EFTPlayer;
-using eft_dma_radar.Tarkov.Loot;
-using eft_dma_radar.Tarkov.API;
-using eft_dma_radar.UI.Misc;
-using eft_dma_radar.UI.Radar;
-using VmmFrost;
-using eft_dma_radar.Tarkov.GameWorld;
-using eft_dma_radar.Tarkov.GameWorld.Explosives;
-using eft_dma_radar.Tarkov.GameWorld.Exits;
-using System.Runtime;
-using eft_dma_shared.Common.DMA;
-using eft_dma_shared.Common.Unity;
-using eft_dma_shared.Common.Misc;
+﻿    global using static eft_dma_radar.Tarkov.MemoryInterface;
+    using eft_dma_radar.Tarkov.EFTPlayer;
+    using eft_dma_radar.Tarkov.Loot;
+    using eft_dma_radar.Tarkov.API;
+    using eft_dma_radar.UI.Misc;
+    using eft_dma_radar.UI.Radar;
+    using VmmFrost;
+    using eft_dma_radar.Tarkov.GameWorld;
+    using eft_dma_radar.Tarkov.GameWorld.Explosives;
+    using eft_dma_radar.Tarkov.GameWorld.Exits;
+    using System.Runtime;
+    using eft_dma_shared.Common.DMA;
+    using eft_dma_shared.Common.Unity;
+    using eft_dma_shared.Common.Misc.Commercial;
 
-namespace eft_dma_radar.Tarkov
-{
+    namespace eft_dma_radar.Tarkov
+    {
     internal static class MemoryInterface
     {
         private static MemDMA _memory;
@@ -91,9 +91,9 @@ namespace eft_dma_radar.Tarkov
             new Thread(MemoryPrimaryWorker)
             {
                 IsBackground = true
-            }.Start(); // Start Memory Thread after successful startup
         }
-
+                .Start(); // Start Memory Thread after successful startup
+            }
         /// <summary>
         /// Main worker thread to perform DMA Reads on.
         /// </summary>
@@ -152,7 +152,7 @@ namespace eft_dma_radar.Tarkov
                 }
                 catch (Exception ex)
                 {
-                    //LoneLogging.WriteLine($"Game Startup [FAIL]: {ex}");
+                        LoneLogging.WriteLine($"Game Startup [FAIL]: {ex}");
                     OnGameStopped();
                     Thread.Sleep(1000);
                 }
@@ -371,6 +371,7 @@ namespace eft_dma_radar.Tarkov
         /// Get the Code Cave Address for NativeHook.
         /// </summary>
         /// <exception cref="Exception"></exception>
+            [Obfuscation(Feature = "Virtualization", Exclude = false)]
         public override ulong GetCodeCave()
         {
             var @class = MonoLib.MonoClass.Find("Assembly-CSharp", "EFT.TarkovApplication", out _);
@@ -379,4 +380,4 @@ namespace eft_dma_radar.Tarkov
         }
         #endregion
     }
-}
+    }

@@ -1,5 +1,5 @@
-﻿using eft_dma_shared.Common.Misc;
-using eft_dma_shared.Common.DMA.ScatterAPI;
+﻿using eft_dma_shared.Common.DMA.ScatterAPI;
+using eft_dma_shared.Common.Misc.Commercial;
 using eft_dma_shared.Common.Unity.Collections;
 
 namespace eft_dma_radar.Tarkov.GameWorld.Exits
@@ -20,10 +20,10 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
         }
 
         /// <summary>
-        /// Initialize ExfilManager.
-        /// </summary>
-        private void Init()
-        {
+/// Initialize ExfilManager.
+/// </summary>
+private void Init()
+{
             var list = new List<IExitPoint>();
             /// Exfils
             var exfilController = Memory.ReadPtr(_localGameWorld + Offsets.ClientLocalGameWorld.ExfilController, false);
@@ -56,7 +56,7 @@ namespace eft_dma_radar.Tarkov.GameWorld.Exits
             }
 
             _exits = list; // update readonly ref
-        }
+}
 
         /// <summary>
         /// Updates exfil statuses.
