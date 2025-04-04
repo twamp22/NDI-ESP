@@ -54,6 +54,14 @@
 		</Content>
 	</ItemGroup>
 
+    <ItemGroup>
+        <Content Include="NDILibDotNetCoreBase.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Processing.NDI.Lib.x64.dll">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="DarkModeForms.imerzan" Version="1.0.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="9.0.0" />

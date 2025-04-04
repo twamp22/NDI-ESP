@@ -9,6 +9,7 @@ using arena_dma_radar.Arena.Features.MemoryWrites;
 using eft_dma_shared.Common.ESP;
 using eft_dma_shared.Common.Players;
 using eft_dma_shared.Common.Misc.Commercial;
+using eft_dma_radar.UI.ESP;
 
 namespace arena_dma_radar.UI.ESP
 {
@@ -56,18 +57,24 @@ namespace arena_dma_radar.UI.ESP
 
         public EspForm()
         {
+            EspForm.Window = this;
             InitializeComponent();
-            this.CenterToScreen();
+            CenterToScreen();
+            this.Visible = false;
+            this.ShowInTaskbar = false;
+            this.Opacity = 0;
+            var screen = Screen.AllScreens[Config.ESP.SelectedScreen];
+            NDIManager.Initialize(screen.Bounds.Width, screen.Bounds.Height, Config.ESP.FPSCap);
             skglControl_ESP.DoubleClick += ESP_DoubleClick;
             _fpsSw.Start();
             var allScreens = Screen.AllScreens;
             if (Config.ESP.AutoFullscreen && Config.ESP.SelectedScreen < allScreens.Length)
             {
-                var screen = allScreens[Config.ESP.SelectedScreen];
-                var bounds = screen.Bounds;
-                this.FormBorderStyle = FormBorderStyle.None;
-                this.Location = new(bounds.Left, bounds.Top);
-                this.Size = CameraManagerBase.Viewport.Size;
+                var selectedScreen = allScreens[Config.ESP.SelectedScreen];
+                var bounds = selectedScreen.Bounds;
+                FormBorderStyle = FormBorderStyle.None;
+                Location = new Point(bounds.Left, bounds.Top);
+                Size = CameraManagerBase.Viewport.Size;
             }
 
             var interval = Config.ESP.FPSCap == 0 ?
@@ -188,7 +195,7 @@ namespace arena_dma_radar.UI.ESP
                         if (Config.ESP.ShowAimFOV && MemWriteFeature<Aimbot>.Instance.Enabled && localPlayer.IsAlive)
                             DrawAimFOV(canvas);
                         if (Config.ESP.ShowFPS)
-                            DrawFPS(canvas);
+                            DrawPerformanceStats(canvas);
                         if (Config.ESP.ShowMagazine && localPlayer.IsAlive)
                             DrawMagazine(canvas, localPlayer);
                         if (Config.ESP.ShowFireportAim &&
@@ -206,6 +213,28 @@ namespace arena_dma_radar.UI.ESP
                 LoneLogging.WriteLine($"ESP RENDER CRITICAL ERROR: {ex}");
             }
             canvas.Flush();
+
+            using (var image = e.Surface.Snapshot())
+            {
+                var info = image.Info;
+                var buffer = new byte[info.BytesSize];
+
+                unsafe
+                {
+                    fixed (byte* bufferPtr = buffer)
+                    {
+                        // Read pixels from the image into our buffer
+                        if (image.ReadPixels(info, (IntPtr)bufferPtr, info.RowBytes, 0, 0))
+                        {
+                            // Wrap the buffer with an SKPixmap directly
+                            using (var pixmap = new SKPixmap(info, (IntPtr)bufferPtr, info.RowBytes))
+                            {
+                                NDIManager.SendFrame(pixmap, Config.ESP.FPSCap);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -283,7 +312,7 @@ namespace arena_dma_radar.UI.ESP
         /// Draw FPS Counter.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void DrawFPS(SKCanvas canvas)
+        private void DrawPerformance(SKCanvas canvas)
         {
             var textPt = new SKPoint(CameraManagerBase.Viewport.Left + (4.5f * Config.ESP.FontScale),
                 CameraManagerBase.Viewport.Top + (14f * Config.ESP.FontScale));
@@ -308,6 +337,30 @@ namespace arena_dma_radar.UI.ESP
                 return;
 
             canvas.DrawLine(fireportPosScr, targetScr, SKPaints.PaintBasicESP);
+        }
+
+        /// <summary>
+        /// Draw the Aim FOV Circle.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void DrawPerformanceStats(SKCanvas canvas)
+        {
+            var lines = new[]
+            {
+                $"Render FPS: {_fps}",
+                $"NDI Connections: {NDIManager.GetConnections()}",
+                $"Frames Sent: {NDIManager.FramesSent}",
+                $"NDI Latency: {NDIManager.LastSendLatencyMs} ms"
+            };
+
+            float x = CameraManagerBase.Viewport.Left + 4.5f * Config.ESP.FontScale;
+            float y = CameraManagerBase.Viewport.Top + 14f * Config.ESP.FontScale;
+
+            foreach (var line in lines)
+            {
+                canvas.DrawText(line, x, y, SKPaints.TextBasicESPLeftAligned);
+                y += SKPaints.TextBasicESPLeftAligned.TextSize + 2f * Config.ESP.FontScale;
+            }
         }
 
         /// <summary>
@@ -369,6 +422,7 @@ namespace arena_dma_radar.UI.ESP
                 CameraManagerBase.EspRunning = false;
                 Window = null;
                 _renderTimer.Dispose();
+                NDIManager.Shutdown();
             }
             finally
             {
