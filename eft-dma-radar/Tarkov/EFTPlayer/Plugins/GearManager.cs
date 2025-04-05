@@ -86,7 +86,7 @@ namespace eft_dma_radar.Tarkov.EFTPlayer.Plugins
                         LootManager.GetItemsInGrid(grids, loot);
                     }
                     catch { }
-
+        
                     if (EftDataManager.AllItems.TryGetValue(id, out var entry2))
                     {
                         if (slot.Key == "FirstPrimaryWeapon" || slot.Key == "SecondPrimaryWeapon" || slot.Key == "Headwear") 
@@ -96,8 +96,8 @@ namespace eft_dma_radar.Tarkov.EFTPlayer.Plugins
                                 RecursePlayerGearSlots(containedItem, loot);
                             }
                             catch { }
-                            }
-
+                        }
+        
                         var gear = new GearItem
                         {
                             Long = entry2.Name ?? "None",
@@ -108,11 +108,12 @@ namespace eft_dma_radar.Tarkov.EFTPlayer.Plugins
                 }
                 catch { } // Skip empty slots
             }
-
+        
             Loot = loot.OrderLoot().ToList();
             Value = loot.Sum(x => x.Price);  // ✅ Ensure Value is updated correctly
             Equipment = gearDict;
         }
+
 
         /// <summary>
         /// Checks a 'Primary' weapon for Ammo Type, and Thermal Scope.

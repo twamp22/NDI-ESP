@@ -85,25 +85,25 @@ namespace eft_dma_radar
         {
             try
             {
-            try
-            {
+                try
+                {
                     string loneCfgPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Lones-Client");
                     if (Directory.Exists(loneCfgPath))
-                {
+                    {
                         if (ConfigPath.Exists)
                             ConfigPath.Delete(true);
                         Directory.Move(loneCfgPath, ConfigPath.FullName);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
+                catch (Exception ex)
+                {
                     MessageBox.Show("ERROR Importing Lone Config(s). Close down the radar, and try copy your config files manually from %AppData%\\LonesClient TO %AppData%\\eft-dma-radar\n\n" +
                         "Be sure to delete the Lones-Client folder when done.\n\n" +
                         $"ERROR: {ex}",
-                    Program.Name,
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-            }
+                        Program.Name,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
                 ConfigPath.Create();
                 var config = Config.Load();
                 eft_dma_shared.SharedProgram.Initialize(ConfigPath, config);

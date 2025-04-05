@@ -23,7 +23,7 @@ namespace eft_dma_shared.Common.Misc.Config
         /// </summary>
         [JsonPropertyName("visColor")]
         public string VisibleColor { get; set; } = SKColor.Parse("FF32CD32").ToString(); // LimeGreen
-
+        
         /// <summary>
         /// Invisible color for vischeck chams.
         /// </summary>

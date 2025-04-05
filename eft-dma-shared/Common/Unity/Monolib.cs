@@ -405,7 +405,7 @@ namespace eft_dma_shared.Common.Unity
 
         [StructLayout(LayoutKind.Explicit, Pack = 1)]
         public readonly struct MonoMethod
-        {
+        {            
             public static implicit operator ulong(MonoMethod x) => x.Base;
             [FieldOffset(0x0)]
             private readonly ulong Base;
@@ -799,7 +799,7 @@ namespace eft_dma_shared.Common.Unity
                 }
                 return default;
             }            
-        }
+        }    
 
         [StructLayout(LayoutKind.Explicit, Pack = 1)]
         private readonly struct MonoHashTable

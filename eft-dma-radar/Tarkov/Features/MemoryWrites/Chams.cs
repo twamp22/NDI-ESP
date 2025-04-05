@@ -41,8 +41,10 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                         ulong fpsView = cm.FPSCamera;
                         ulong opticView = cm.OpticCamera;
                         const bool targetCulling = false;
+
                         var cullingFps = Memory.ReadValue<bool>(fpsView + UnityOffsets.Camera.OcclusionCulling);
                         var cullingOptical = Memory.ReadValue<bool>(opticView + UnityOffsets.Camera.OcclusionCulling);
+
                         if (cullingFps != targetCulling)
                         {
                             writes.AddValueEntry(fpsView + UnityOffsets.Camera.OcclusionCulling, targetCulling);
@@ -59,10 +61,12 @@ namespace eft_dma_radar.Tarkov.Features.MemoryWrites
                     var players = game.Players
                         .Where(x => x.IsHostileActive)
                         .Where(x => x.ChamsMode != mode);
+
                     if (!players.Any()) // Already Set
                         return;
 
                     using var hChamsScatter = new ScatterWriteHandle();
+
                     foreach (var player in players)
                     {
                         int materialID = GetMaterialID(mode, player); // Select correct material based on PlayerT

@@ -1,4 +1,4 @@
-# Twamp's (WIP) NDI ESP
+# Twamp's (TESTED WIP) NDI ESP
 
 ## What is this?
 - This is a proof of concept-turned work in progress for a network streamed ESP fuser video feed.
@@ -17,16 +17,16 @@
   - Click-through
 - Added Loot Info Widget
   - Shows a loot table sorted by highest price, can click on each item to draw a line to its destination.
+- Added optional markers for switches (doors, power, etc) Thanks Copper
 
 ## Testers welcome!
-- I have only tested this on a number of my personal machines! Feel free to build it, run it and try to break it but please provide feedback to me via discord DM.
+- IFeel free to build it, run it and try to break it but please provide feedback to me via discord DM.
 
 ## EFT Educational Resources Discord Server
 - [EFT Educational Resources Discord Server](https://discord.gg/jGSnTCekdx)
 
 ## Known Issues
 - ESP Window is being rendered and hidden(terrible for FPS & rendering speed)
-   - AutoFullScreen causes lag due to changing ESP window size, increasing FPS
 - No way to use ESP window currently, user needs control over this in UI
 - No way to disable NDI feed, user needs control over this in UI
 

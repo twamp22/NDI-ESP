@@ -73,7 +73,7 @@ namespace eft_dma_shared.Common.Unity.LowLevel
                 Type = ChamsMode.VisCheckWireframe,
                 HasInvisibleColor = true,
                 PlayerT = "PMC"
-            }
+            }           
         };
 
         /// <summary>
@@ -111,14 +111,14 @@ namespace eft_dma_shared.Common.Unity.LowLevel
                         continue; // Skip already loaded bundle
                     }
 
-                byte[] resource;
+                    byte[] resource;
                     string resourcePath = resourceNames.FirstOrDefault(name => name.EndsWith(bundle.BundleName));
 
                     if (resourcePath == null)
-                {
+                    {
                         LoneLogging.WriteLine($"[ERROR] Missing embedded resource: {bundle.BundleName}");
                         continue;
-                }
+                    }
 
                     using (var stream = assembly.GetManifestResourceStream(resourcePath))
                     {
@@ -132,11 +132,11 @@ namespace eft_dma_shared.Common.Unity.LowLevel
                         stream.Read(resource, 0, resource.Length);
                     }
 
-                results.Add(new AssetBundle()
-                {
-                    Info = bundle,
-                    Bundle = resource
-                });
+                    results.Add(new AssetBundle()
+                    {
+                        Info = bundle,
+                        Bundle = resource
+                    });
 
                     loadedBundles.Add(bundle.BundleName); // Mark as loaded
                     LoneLogging.WriteLine($"[LoadBundle] Successfully loaded {bundle.BundleName}");
@@ -194,6 +194,7 @@ namespace eft_dma_shared.Common.Unity.LowLevel
                 using var shaderProperty_InvisibleColorMem = shaderProperty_InvisibleColorMonoStr.ToRemoteBytes();
 
                 var bundles = LoadAssetBundlesFromResources();
+                
                 foreach (var bundle in bundles)
                 {
                     bool assetBundleLoaded = false;
@@ -219,8 +220,8 @@ namespace eft_dma_shared.Common.Unity.LowLevel
                         }
                         else // Apply AI Colors
                         {
-                        NativeMethods.SetMaterialColor(chamsColorMem, material.Address, material.ColorVisible, new UnityColor(visibleColor));
-                        NativeMethods.SetMaterialColor(chamsColorMem, material.Address, material.ColorInvisible, new UnityColor(invisibleColor));
+                            NativeMethods.SetMaterialColor(chamsColorMem, material.Address, material.ColorVisible, new UnityColor(visibleColor));
+                            NativeMethods.SetMaterialColor(chamsColorMem, material.Address, material.ColorInvisible, new UnityColor(invisibleColor));
                         }
                         foreach (var kvp in _materials)
                         {
@@ -274,6 +275,7 @@ namespace eft_dma_shared.Common.Unity.LowLevel
                             InstanceID = kvp.Value.Deobfuscate()
                         };
                     }
+
                     LoneLogging.WriteLine("[CHAMS MANAGER] TryInitializeFromCache() -> OK");
                     return true;
                 }
@@ -283,7 +285,6 @@ namespace eft_dma_shared.Common.Unity.LowLevel
             }
             return false;
         }
-
         private static void CacheMaterialIds()
         {
             foreach (var kvp in _materials)
@@ -297,7 +298,6 @@ namespace eft_dma_shared.Common.Unity.LowLevel
             }
             _ = Cache.SaveAsync();
         }
-
         private static ChamsMaterial CreateChamsMaterial(ulong monoDomain, ulong materialClass, ulong invisibleColorMem, ulong visibleColorMem, bool hasInvisibleColor)
         {
             ulong materialAddress = AssetFactory.CreateMaterial(monoDomain, materialClass);
@@ -335,7 +335,6 @@ namespace eft_dma_shared.Common.Unity.LowLevel
             }
             throw new Exception("[CHAMS MANAGER]: CreateChamsMaterial() -> Failed to create chams material!");
         }
-
         public static void Reset()
         {
             _materials.Clear();
@@ -356,7 +355,7 @@ namespace eft_dma_shared.Common.Unity.LowLevel
             public ChamsManager.ChamsMode Type { get; init; }
             public string PlayerT { get; init; }
             public bool HasInvisibleColor { get; init; }
-        }
+        }       
         public static AssetBundleInfo? GetBundleForType(ChamsMode mode, string playerTypeCategory)
         {
             return _bundles.FirstOrDefault(b => b.Type == mode && b.PlayerT == playerTypeCategory);
@@ -380,7 +379,6 @@ namespace eft_dma_shared.Common.Unity.LowLevel
             /// </summary>
             public int ColorInvisible { get; init; }
         }
-
         public enum ChamsMode : int
         {
             Basic = 1,

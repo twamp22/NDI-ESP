@@ -83,7 +83,7 @@ namespace eft_dma_shared.Common.Misc.Data
                 NumberHandling = JsonNumberHandling.AllowReadingFromString
             };
             json ??= await File.ReadAllTextAsync(_dataFile);
-                data = JsonSerializer.Deserialize<TarkovMarketData>(json, jsonOptions);
+            data = JsonSerializer.Deserialize<TarkovMarketData>(json, jsonOptions);
             ArgumentNullException.ThrowIfNull(data, nameof(data));
             return data;
         }
